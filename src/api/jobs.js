@@ -9,7 +9,5 @@ export async function getJobs() {
     return null;
   }
 
-  console.log(data);
-
   return data;
 }
