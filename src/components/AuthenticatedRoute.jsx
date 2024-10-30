@@ -1,9 +1,9 @@
 import { useUser } from "@clerk/clerk-react";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 
 export default function AuthenticatedRoute({ children }) {
-  const { isSignedIn, isLoaded } = useUser();
-  //   const pathname = useLocation();
+  const { isSignedIn, isLoaded, user } = useUser();
+  const { pathname } = useLocation();
 
   if (isLoaded && !isSignedIn && isSignedIn !== undefined) {
     return <Navigate to="/?sign-in=true" />;
@@ -12,14 +12,12 @@ export default function AuthenticatedRoute({ children }) {
   //     return <Navigate to="/?sign-in=true" />;
   //   }
 
-  // TODO: fix - if no role is found - redirect user
-  //   //
-  //   if (
-  //     user !== undefined &&
-  //     !user?.unsafeMetadata?.role &&
-  //     pathname !== "/onboard"
-  //   ) {
-  //     return <Navigate to="/onboard" />;
-  //   }
+  if (
+    user !== undefined &&
+    !user?.unsafeMetadata?.role &&
+    pathname !== "/onboard"
+  ) {
+    return <Navigate to="/onboard" />;
+  }
   return children;
 }
