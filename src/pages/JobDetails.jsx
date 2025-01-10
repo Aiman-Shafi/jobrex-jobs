@@ -18,6 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+// import { Button } from "@/components/ui/button";
+import ApplicationCard from "@/components/ApplicationCard";
+import { ApplyJobDialog } from "@/components/ApplyJobDialog";
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -36,8 +39,9 @@ export default function JobDetails() {
     }
   }, [isLoaded]);
 
-  const { loading: hiringStatusLoader, fetchData: fetchHiringStatus } =
-    useFetch(updatedHiringStatus, { id: id });
+  const { fetchData: fetchHiringStatus } = useFetch(updatedHiringStatus, {
+    id: id,
+  });
 
   const handleStatusChange = (value) => {
     const isOpen = value == "open";
@@ -153,21 +157,49 @@ export default function JobDetails() {
       </div>
 
       {job?.recruiter_id == user?.id && (
-        <Select onValueChange={handleStatusChange}>
-          <SelectTrigger
-            className={`w-[180px] ${
-              job.isOpen ? "bg-green-900" : "bg-red-900"
-            }`}
-          >
-            <SelectValue
-              placeholder={job.isOpen ? "Status Open" : "Status Closed"}
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="open">Open</SelectItem>
-            <SelectItem value="closed">Closed</SelectItem>
-          </SelectContent>
-        </Select>
+        <>
+          <h2 className="text-xl font-bold my-4 mt-6">Current Status</h2>
+          <Select onValueChange={handleStatusChange}>
+            <SelectTrigger
+              className={`w-[180px] ${
+                job.isOpen ? "bg-green-900" : "bg-red-900"
+              }`}
+            >
+              <SelectValue
+                placeholder={job.isOpen ? "Status Open" : "Status Closed"}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="open">Open</SelectItem>
+              <SelectItem value="closed">Closed</SelectItem>
+            </SelectContent>
+          </Select>
+        </>
+      )}
+
+      {job?.recruiter_id !== user?.id && (
+        <ApplyJobDialog
+          job={job}
+          user={user}
+          fetchJob={fetchSingleJob}
+          applied={job.applications?.find(
+            (application) => application.candidate_id == user.id
+          )}
+        />
+      )}
+
+      {job?.applications?.length > 0 && job?.recruiter_id === user.id && (
+        <div className="my-10">
+          <h2 className="text-xl font-bold my-4">
+            Applications ({job?.applications.length})
+          </h2>
+
+          {job?.applications.map((application) => {
+            return (
+              <ApplicationCard key={application.id} application={application} />
+            );
+          })}
+        </div>
       )}
     </section>
   );
