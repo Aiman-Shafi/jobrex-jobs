@@ -18,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ApplyJobDrawer } from "@/components/ApplyJobDrawer";
+import ApplicationCard from "@/components/ApplicationCard";
 
 export default function JobDetails() {
   const { id } = useParams();
@@ -168,6 +170,26 @@ export default function JobDetails() {
             <SelectItem value="closed">Closed</SelectItem>
           </SelectContent>
         </Select>
+      )}
+
+      {job?.recruiter_id !== user?.id && (
+        <ApplyJobDrawer
+          job={job}
+          user={user}
+          fetchJob={fetchSingleJob}
+          applied={job?.applications?.find((ap) => ap.candidate_id === user.id)}
+        />
+      )}
+      {hiringStatusLoader && <div>loading..</div>}
+      {job?.applications?.length > 0 && job?.recruiter_id === user?.id && (
+        <div className="flex flex-col gap-2">
+          <h2 className="font-bold mb-4 text-xl ml-1">Applications</h2>
+          {job?.applications.map((application) => {
+            return (
+              <ApplicationCard key={application.id} application={application} />
+            );
+          })}
+        </div>
       )}
     </section>
   );
