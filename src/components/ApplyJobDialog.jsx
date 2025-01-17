@@ -13,10 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import useFetch from "@/hooks/useFetch";
+import { DialogClose } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
-// TODO: fetch Job & POST REQ: Apply to Job
 // TODO: Send resume to supabase storage
+// TODO: Fix Drag and Drop files issues
 
 export function ApplyJobDialog({ job, applied, user, fetchJob }) {
   const {
@@ -32,14 +34,20 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
     fetchData: applyJob,
   } = useFetch(applyToJob);
   const onSubmit = (data) => {
+    console.log(data);
     applyJob({
       ...data,
       job_id: job.id,
+      name: user.fullName,
       candidate_id: user.id,
       status: "Applied",
+      // resume: resume,
     }).then(() => {
+      fetchJob();
       reset();
-      //   fetchJob();
+      toast("Congratulations! Job Application Sent", {
+        icon: "👏",
+      });
     });
   };
 
@@ -137,7 +145,7 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
                 type="file"
                 placeholder="Resume"
                 accept="image/*"
-                {...register("resume")}
+                {...register("resume", { required: true })}
               />
             </div>
             {/* {errors?.experience?.type == "required" && (
@@ -146,7 +154,9 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleSubmit(onSubmit)}>Apply Job</Button>
+          <DialogClose>
+            <Button onClick={handleSubmit(onSubmit)}>Apply Job</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

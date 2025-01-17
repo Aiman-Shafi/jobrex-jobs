@@ -196,8 +196,31 @@ export default function JobDetails() {
 
           {job?.applications.map((application) => {
             return (
-              <ApplicationCard key={application.id} application={application} />
+              <ApplicationCard
+                key={application.id}
+                application={application}
+                isCandidate={false}
+              />
             );
+          })}
+        </div>
+      )}
+
+      {job?.applications?.length > 0 && job?.recruiter_id !== user.id && (
+        <div className="my-10">
+          {job?.applications.map((application) => {
+            if (application.candidate_id === user.id)
+              return (
+                <>
+                  <h2 className="text-xl font-bold my-4">Your Application</h2>
+
+                  <ApplicationCard
+                    key={application.id}
+                    application={application}
+                    isCandidate={true}
+                  />
+                </>
+              );
           })}
         </div>
       )}
