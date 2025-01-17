@@ -102,7 +102,7 @@ export default function AllJobs() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {companies.map(({ name, id }) => {
+                      {companies?.map(({ name, id }) => {
                         return (
                           <SelectItem key={id} value={id}>
                             {name}
@@ -122,7 +122,7 @@ export default function AllJobs() {
               <div className="text-gray-900">Loading...</div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {jobs.length === 0 || null ? (
+                {jobs?.length === 0 || null ? (
                   <div>No Job Found!</div>
                 ) : (
                   jobs?.map((job) => <JobCard key={job.id} job={job} />)

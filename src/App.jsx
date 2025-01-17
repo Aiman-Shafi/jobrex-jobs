@@ -9,6 +9,7 @@ import JobDetails from "./pages/JobDetails";
 import Onboard from "./pages/Onboard";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import PostJob from "./pages/PostJob";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,32 @@ function App() {
   return (
     <>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          gutter={8}
+          containerClassName=""
+          containerStyle={{}}
+          toastOptions={{
+            // Define default options
+            className: "",
+            duration: 5000,
+            removeDelay: 1000,
+            style: {
+              background: "#363636",
+              color: "#fff",
+            },
+
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: "green",
+                secondary: "white",
+              },
+            },
+          }}
+        />
         <RouterProvider router={router} />
       </ThemeProvider>
     </>

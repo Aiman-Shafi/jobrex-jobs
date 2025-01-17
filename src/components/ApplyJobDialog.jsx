@@ -13,10 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import useFetch from "@/hooks/useFetch";
+import { DialogClose } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 // TODO: fetch Job & POST REQ: Apply to Job
 // TODO: Send resume to supabase storage
+// TODO: zod validation (optional)
 
 export function ApplyJobDialog({ job, applied, user, fetchJob }) {
   const {
@@ -36,10 +39,12 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
       ...data,
       job_id: job.id,
       candidate_id: user.id,
+      name: user.fullName,
       status: "Applied",
     }).then(() => {
+      fetchJob();
       reset();
-      //   fetchJob();
+      toast.success("Successfully created!");
     });
   };
 
@@ -136,7 +141,7 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
                 id="resume"
                 type="file"
                 placeholder="Resume"
-                accept="image/*"
+                accept=".pdf,.docx,.doc"
                 {...register("resume")}
               />
             </div>
@@ -146,7 +151,9 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleSubmit(onSubmit)}>Apply Job</Button>
+          <DialogClose>
+            <Button onClick={handleSubmit(onSubmit)}>Apply Job</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

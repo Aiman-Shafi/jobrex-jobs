@@ -65,6 +65,8 @@ export default function JobDetails() {
     );
   }
 
+  // TODO: RENDER MARKDOWN EDITOR DATA
+
   return (
     <section className="max-w-6xl mx-auto mt-10">
       <div className="border rounded-lg border-gray-600 bg-gray-50 dark:bg-transparent">
@@ -182,8 +184,8 @@ export default function JobDetails() {
           job={job}
           user={user}
           fetchJob={fetchSingleJob}
-          applied={job.applications?.find(
-            (application) => application.candidate_id == user.id
+          applied={job?.applications?.find(
+            (application) => application.candidate_id === user.id
           )}
         />
       )}
