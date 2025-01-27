@@ -41,7 +41,7 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
       name: user.fullName,
       candidate_id: user.id,
       status: "Applied",
-      // resume: resume,
+      resume: data.resume[0],
     }).then(() => {
       fetchJob();
       reset();
@@ -144,13 +144,13 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
                 id="resume"
                 type="file"
                 placeholder="Resume"
-                accept="image/*"
+                accept=".pdf, .docx, .doc"
                 {...register("resume", { required: true })}
               />
             </div>
-            {/* {errors?.experience?.type == "required" && (
+            {errors?.experience?.type == "required" && (
               <p className="text-red-500 ">Resume is required</p>
-            )} */}
+            )}
           </div>
         </div>
         <DialogFooter>

@@ -12,13 +12,16 @@ import toast from "react-hot-toast";
 
 export default function ApplicationCard({ application, isCandidate }) {
   // TODO: Handle Download Resume
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = application?.resume;
+    link.target = "_blank";
+    link.click();
+  };
 
-  const { loading: statusLoader, fetchData: updateStatus } = useFetch(
-    updateApplicationStatus,
-    {
-      job_id: application.job_id,
-    }
-  );
+  const { fetchData: updateStatus } = useFetch(updateApplicationStatus, {
+    job_id: application.job_id,
+  });
 
   const handleStatusChange = (status) => {
     updateStatus(status).then(() => {
@@ -47,7 +50,9 @@ export default function ApplicationCard({ application, isCandidate }) {
           <h3 className="font-bold text-gray-900 dark:text-white">
             Skill: <span>{application.skills}</span>
           </h3>
-          <Button className="my-4">Download Resume</Button>
+          <Button className="my-4" onClick={handleDownload}>
+            Download Resume
+          </Button>
         </div>
 
         {isCandidate ? (

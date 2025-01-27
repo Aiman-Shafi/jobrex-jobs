@@ -23,7 +23,6 @@ export async function getJobs(token, { company_id, searchTerm }) {
 }
 
 // get a single job
-
 export async function getSingleJob(token, { id }) {
   const supabase = await supabaseClient(token);
   let query = supabase
@@ -43,7 +42,6 @@ export async function getSingleJob(token, { id }) {
 }
 
 // check if job is open or closed
-
 export async function updatedHiringStatus(token, { id }, isOpen) {
   const supabase = await supabaseClient(token);
   let query = supabase.from("jobs").update({ isOpen }).eq("id", id).select();
@@ -53,6 +51,22 @@ export async function updatedHiringStatus(token, { id }, isOpen) {
   if (error) {
     console.error("Error udpdating job status..", error);
     return null;
+  }
+
+  return data;
+}
+
+export async function addNewJob(token, _, jobData) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .insert([jobData])
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error Creating Job");
   }
 
   return data;
