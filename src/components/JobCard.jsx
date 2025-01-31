@@ -1,11 +1,38 @@
-import { MapPin } from "lucide-react";
+import { MapPin, Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import useFetch from "@/hooks/useFetch";
+import { deleteJob } from "@/api/jobs";
+// import { useUser } from "@clerk/clerk-react";
 
-export default function JobCard({ job }) {
+export default function JobCard({
+  job,
+  isMyJob = false,
+  onJobAction = () => {},
+}) {
+  const { loading: loadingDeleteJob, fetchData: fnDeleteJob } = useFetch(
+    deleteJob,
+    {
+      job_id: job.id,
+    }
+  );
+
+  const handleDeleteJob = async () => {
+    await fnDeleteJob();
+    onJobAction();
+  };
+
   return (
     <Card key={job.id}>
+      {isMyJob && (
+        <Trash2Icon
+          fill="red"
+          size={18}
+          className="text-red-300 cursor-pointer"
+          onClick={handleDeleteJob}
+        />
+      )}
       <CardHeader>
         <Link to={`/job/${job.id}`}>
           <img
