@@ -179,7 +179,7 @@ export default function JobDetails() {
         </>
       )}
 
-      {job?.recruiter_id !== user?.id && (
+      {job?.recruiter_id !== user?.id && job?.isOpen && (
         <ApplyJobDialog
           job={job}
           user={user}

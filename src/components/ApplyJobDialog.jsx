@@ -27,11 +27,7 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
     formState: { errors },
   } = useForm();
 
-  const {
-    // loading: loadingApplytoJob,
-    // error: errorApplytoJob,
-    fetchData: applyJob,
-  } = useFetch(applyToJob);
+  const { fetchData: applyJob } = useFetch(applyToJob);
   const onSubmit = (data) => {
     console.log(data);
     applyJob({
@@ -65,12 +61,6 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
           <DialogDescription>{job?.companies?.name}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 justify-start py-4">
-          {/* <div className=" gap-4">
-            <Label htmlFor="name" className="text-left">
-              Name
-            </Label>
-            <Input id="name" placeholder="John Doe" className="col-span-3" />
-          </div> */}
           <div className="gap-4">
             <Label htmlFor="experience">Years of Experience</Label>
             <Input
@@ -147,9 +137,9 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
                 {...register("resume", { required: true })}
               />
             </div>
-            {/* {errors?.experience?.type == "required" && (
+            {errors?.experience?.type == "required" && (
               <p className="text-red-500 ">Resume is required</p>
-            )} */}
+            )}
           </div>
         </div>
         <DialogFooter>

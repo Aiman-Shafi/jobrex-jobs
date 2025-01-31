@@ -9,9 +9,13 @@ import { Button } from "./ui/button";
 import useFetch from "@/hooks/useFetch";
 import { updateApplicationStatus } from "@/api/application";
 import toast from "react-hot-toast";
+import { MapPin } from "lucide-react";
 
-export default function ApplicationCard({ application, isCandidate }) {
-  // TODO: Handle Download Resume
+export default function ApplicationCard({
+  application,
+  isCandidate,
+  isMyApplicationPage = false,
+}) {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = application?.resume;
@@ -38,8 +42,22 @@ export default function ApplicationCard({ application, isCandidate }) {
         </time>
       </div>
 
-      <div className="flex flex-1 flex-col justify-between">
+      <div className="flex flex-1 justify-between items-center">
         <div className="border-s border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
+          {isMyApplicationPage && (
+            <div className="bg-gray-900 rounded-md p-4 mb-4">
+              <h2 className="text-3xl text-bold">{application.job.title}</h2>
+              <div className="flex gap-1 items-center mt-2">
+                <MapPin className="w-4 h-4 mr-1 text-gray-400" />
+                <span className="text-gray-400">
+                  {application.job.location}
+                </span>
+                <span className="bg-purple-600/30 p-1 rounded-md ml-4">
+                  {application.job.company.name}
+                </span>
+              </div>
+            </div>
+          )}
           <h3 className="font-bold text-gray-900 dark:text-white">
             Name: {application.name}
           </h3>
