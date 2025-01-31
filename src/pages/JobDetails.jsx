@@ -22,6 +22,8 @@ import {
 import ApplicationCard from "@/components/ApplicationCard";
 import { ApplyJobDialog } from "@/components/ApplyJobDialog";
 
+// TODO: Markdown Editor Implementation
+
 export default function JobDetails() {
   const { id } = useParams();
   const { isLoaded, user } = useUser();

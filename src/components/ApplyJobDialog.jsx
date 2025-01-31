@@ -17,7 +17,6 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-// TODO: Send resume to supabase storage
 // TODO: Fix Drag and Drop files issues
 
 export function ApplyJobDialog({ job, applied, user, fetchJob }) {
@@ -41,7 +40,7 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
       name: user.fullName,
       candidate_id: user.id,
       status: "Applied",
-      // resume: resume,
+      resume: data.resume[0],
     }).then(() => {
       fetchJob();
       reset();
@@ -144,7 +143,7 @@ export function ApplyJobDialog({ job, applied, user, fetchJob }) {
                 id="resume"
                 type="file"
                 placeholder="Resume"
-                accept="image/*"
+                accept=".pdf, .docs, .doc, .docx"
                 {...register("resume", { required: true })}
               />
             </div>

@@ -4,15 +4,14 @@ export async function applyToJob(token, _, jobData) {
   const supabase = await supabaseClient(token);
 
   //fileupload
-  // TODO:Fix File Upload Format Issues
   const randomId = Math.floor(Math.random() * 10000);
-  const fileName = `resume-${jobData.job_id}-${randomId}`;
+  const fileName = `resume-${jobData.name}-${randomId}`;
 
   const { error: uploadError } = await supabase.storage
     .from("resume")
     .upload(fileName, jobData.resume);
 
-  const resume = `${supabaseUrl}/storage/v1/object/public/resume/${fileName}`;
+  const resume = `${supabaseUrl}/storage/v1/object/public/resume/` + fileName;
 
   if (uploadError) throw new Error("Error Uploading Resume..", uploadError);
 

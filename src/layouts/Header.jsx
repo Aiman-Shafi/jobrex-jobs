@@ -11,7 +11,7 @@ import {
 } from "@clerk/clerk-react";
 import { Briefcase } from "lucide-react";
 import { useEffect, useState } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 
 export default function Header() {
   const [showSignIn, setShowSignIn] = useState(false);
@@ -53,8 +53,8 @@ export default function Header() {
 
           <SignedIn>
             {user?.unsafeMetadata.role === "recruiter" && (
-              <Button as={NavLink} to="/post-job">
-                Post a Job
+              <Button>
+                <Link to="/post-job">Post Job</Link>
               </Button>
             )}
             <UserButton
