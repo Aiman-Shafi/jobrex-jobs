@@ -1,14 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
-import { useEffect } from "react";
 import { Comment } from "react-loader-spinner";
 import { useNavigate } from "react-router";
 
 export default function Onboard() {
   const { user, isLoaded } = useUser();
   const navigate = useNavigate();
-
-  console.log(user);
 
   const navigateUser = (currentRole) => {
     navigate(currentRole === "applicant" ? "/jobs" : "/post-job");
@@ -21,11 +18,9 @@ export default function Onboard() {
     });
   };
 
-  useEffect(() => {
-    if (user?.unsafeMetadata?.role) {
-      navigateUser(user.unsafeMetadata.role);
-    }
-  }, [user]);
+  if (user?.unsafeMetadata?.role) {
+    navigateUser(user.unsafeMetadata.role);
+  }
 
   if (!isLoaded) {
     return (
