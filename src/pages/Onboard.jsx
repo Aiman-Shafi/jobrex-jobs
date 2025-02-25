@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
 import { Comment } from "react-loader-spinner";
 import { useNavigate } from "react-router";
 
@@ -18,9 +19,11 @@ export default function Onboard() {
     });
   };
 
-  if (user?.unsafeMetadata?.role) {
-    navigateUser(user.unsafeMetadata.role);
-  }
+  useEffect(() => {
+    if (user?.unsafeMetadata?.role) {
+      navigateUser(user.unsafeMetadata.role);
+    }
+  }, [user]);
 
   if (!isLoaded) {
     return (
