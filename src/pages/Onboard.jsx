@@ -15,15 +15,15 @@ export default function Onboard() {
   const handleUserRole = async (role) => {
     await user.update({ unsafeMetadata: { role } }).then(() => {
       console.log(`Role changed to ${role}`);
-      navigateUser(role);
+      setTimeout(() => navigateUser(role), 500);
     });
   };
 
   useEffect(() => {
-    if (user?.unsafeMetadata?.role) {
+    if (isLoaded && user?.unsafeMetadata?.role) {
       navigateUser(user.unsafeMetadata.role);
     }
-  }, [user]);
+  }, [isLoaded, user]);
 
   if (!isLoaded) {
     return (
