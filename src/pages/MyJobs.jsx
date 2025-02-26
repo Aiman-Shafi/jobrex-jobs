@@ -6,10 +6,6 @@ import { Comment } from "react-loader-spinner";
 export default function MyJobs() {
   const { user, isLoaded } = useUser();
 
-  console.log("isLoaded:", isLoaded);
-  console.log("User:", user);
-  console.log("Metadata:", user?.unsafeMetadata);
-
   if (!isLoaded || !user) {
     return (
       <div className="absolute inset-0 top-0 left-0 flex items-center justify-center">

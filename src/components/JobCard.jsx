@@ -2,10 +2,34 @@ import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import useFetch from "@/hooks/useFetch";
+import { deleteJob } from "@/api/jobs";
 
-export default function JobCard({ job }) {
+export default function JobCard({
+  job,
+  isMyJob = false,
+  onJobAction = () => {},
+}) {
+  const { loading: deleteJobLoader, fetchData: deleteMyJob } = useFetch(
+    deleteJob,
+    { job_id: job.id }
+  );
+
+  const handleDeleteJob = async () => {
+    await deleteMyJob();
+    onJobAction();
+  };
   return (
-    <Card key={job.id}>
+    <Card key={job.id} className="relative">
+      {isMyJob && (
+        <Button
+          onClick={handleDeleteJob}
+          variant="destructive"
+          className="absolute top-2 right-2"
+        >
+          {deleteJobLoader ? "Deleting..." : "Delete"}
+        </Button>
+      )}
       <CardHeader>
         <Link to={`/job/${job.id}`}>
           <img

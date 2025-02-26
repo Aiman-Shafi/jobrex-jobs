@@ -34,7 +34,9 @@ export default function Header() {
   return (
     <header className="py-10">
       <div className="flex justify-between max-w-6xl mx-auto items-center">
-        <div className="logo font-thin text-2xl">JOBREX</div>
+        <div className="logo font-thin text-2xl">
+          <Link to={"/"}>JOBREX</Link>
+        </div>
         <nav>
           <ul className="flex gap-4">
             <li>
@@ -65,11 +67,19 @@ export default function Header() {
               }}
             >
               <UserButton.MenuItems>
-                <UserButton.Link
-                  label="My Jobs"
-                  labelIcon={<Briefcase size={15} />}
-                  href="/my-jobs"
-                />
+                {user?.unsafeMetadata.role === "recruiter" ? (
+                  <UserButton.Link
+                    label="My Jobs"
+                    labelIcon={<Briefcase size={15} />}
+                    href="/my-jobs"
+                  />
+                ) : (
+                  <UserButton.Link
+                    label="My Applications"
+                    labelIcon={<Briefcase size={15} />}
+                    href="/my-jobs"
+                  />
+                )}
               </UserButton.MenuItems>
             </UserButton>
           </SignedIn>

@@ -58,6 +58,7 @@ export async function updatedHiringStatus(token, { id }, isOpen) {
   return data;
 }
 
+// add new job
 export async function addNewJob(token, _, jobData) {
   const supabase = await supabaseClient(token);
   const { data, error } = await supabase
@@ -71,4 +72,34 @@ export async function addNewJob(token, _, jobData) {
   }
 
   return data;
+}
+
+// get recruiter jobs list (my jobs)
+
+export async function getMyJobs(token, { recruiter_id }) {
+  const supabase = await supabaseClient(token);
+  let query = supabase
+    .from("jobs")
+    .select("*, companies(name,logo_url)")
+    .eq("recruiter_id", recruiter_id);
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Error loading my jobs data..", error);
+    return null;
+  }
+
+  return data;
+}
+
+// delete a job
+export async function deleteJob(token, { job_id }) {
+  const supabase = await supabaseClient(token);
+  const { error } = await supabase.from("jobs").delete().eq("id", job_id);
+
+  if (error) {
+    console.error("Error loading deleting job", error);
+    return null;
+  }
 }

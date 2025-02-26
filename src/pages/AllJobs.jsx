@@ -119,7 +119,9 @@ export default function AllJobs() {
             </div>
 
             {jobLoader ? (
-              <div className="text-gray-900">Loading...</div>
+              <div className="text-gray-900 dark:text-white text-center text-2xl">
+                Loading...
+              </div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {jobs.length === 0 || null ? (
